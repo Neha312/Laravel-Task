@@ -1,25 +1,30 @@
 <?php
 
+use App\Models\Photo;
 use App\calculateAgeClass;
 use App\Http\Controllers\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\VideoController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MobileController;
+use App\Http\Controllers\PersonController;
 use App\Http\Controllers\SimpleController;
 use App\Http\Controllers\SingerController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ArticalConntroller;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\SingleActionController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -220,6 +225,32 @@ dd(app()->make('random'));
 // Route::get('/', [MechanicController::class, 'show']);
 // Route::get('/owner', [OwnerController::class, 'show2']);
 // Route::get('/bike', [MechanicController::class, 'show1']);
-Route::get('/', [SongController::class, 'show3']);
-Route::get('/addsong', [SongController::class, 'addSong']);
-Route::get('/addsinger', [SingerController::class, 'addSinger']);
+
+//many to many relationship
+// Route::get('/showsong', [SongController::class, 'show3']);
+// Route::get('/addsong', [SongController::class, 'addSong']);
+// Route::get('/addsinger', [SingerController::class, 'addSinger']);
+// Route::get('/showsinger/{id}', [SingerController::class, 'showSinger']);
+
+
+//one to many-Polymophic relation
+// Route::get('showphoto', [PhotoController::class, 'showPhoto']);
+// Route::get('addphoto', [PhotoController::class, 'addPhoto']);
+// Route::get('/showvideo', [VideoController::class, 'showVideo']);
+// Route::get('/addvideo', [VideoController::class, 'addVideo']);
+//Route::get('/', [CommentController::class]);
+
+//one to one -Polymorphic
+// Route::get('addphoto', [PhotoController::class, 'addPhoto1']);
+// Route::get('showphoto', [PhotoController::class, 'showPhoto1']);
+// Route::get('addperson', [PersonController::class, 'addPerson']);
+//
+
+
+//
+Route::get('showphoto', [TagController::class, 'showPhoto']);
+Route::get('tagphoto', [PhotoController::class, 'photoTag']);
+Route::get('addtagphoto', [TagController::class, 'addTagphoto']);
+Route::get('tagvideo', [VideoController::class, 'videoTag']);
+Route::get('showvideo', [TagController::class, 'showVideo']);
+Route::get('addtagvideo', [TagController::class, 'addTagvideo']);

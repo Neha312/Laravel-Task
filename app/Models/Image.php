@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Song extends Model
+class Image extends Model
 {
     use HasFactory;
-    public function singer()
+    protected $fillable = ['body'];
+    public $timestamps = false;
+    public function imageable()
     {
-        return $this->belongsToMany(Singer::class, 'singer_songs');
+        return $this->morphTo();
     }
 }
