@@ -1,12 +1,19 @@
 <?php
 
 use App\Models\Photo;
+use App\Models\Mutator;
 use App\calculateAgeClass;
+use App\Jobs\sendEmailJob;
+use App\Mail\SendMailDemo;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Product;
+use Illuminate\Routing\RouteAction;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\BikeController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\UserController;
@@ -16,14 +23,19 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MobileController;
 use App\Http\Controllers\PersonController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SimpleController;
 use App\Http\Controllers\SingerController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MutatorController;
+use App\Http\Controllers\RequestController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ArticalConntroller;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\PracticeController;
+use App\Http\Controllers\ResponseController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SingleActionController;
 
 /*
@@ -51,10 +63,10 @@ use App\Http\Controllers\SingleActionController;
 
 // Controller Route
 
-/*Route::get('/', function () {
-    return view('welcome');
-});
-*/
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 
 //Routing Parameter
 /*
@@ -137,8 +149,13 @@ Route::get('/update', [Product::class, 'updateproduct']);
 
 
 //Query Buider
-//Route::get('list', [MemberController::class, 'dbOperation']);
+// Route::get('list', [MemberController::class, 'dbOperation']);
+// Route::get('insert', [MemberController::class, 'dbInsert']);
+// Route::get('update', [MemberController::class, 'dbUpdate']);
+// Route::get('delete', [MemberController::class, 'dbDelete']);
 
+//Query Builder Using view
+//Route::get('show', [MemberController::class, 'show']);
 
 //service controller
 //Route::get('/posts/{post}', [PostController::class, 'show']);
@@ -197,13 +214,15 @@ dd(app()->make('random'));
 
 //Eloquent ORM
 //Route::get('/', [StudentController::class, 'show']);
+
 //Eloquent ORM -CRUD Operation
 // Route::get('/', [PracticeController::class, 'index'])->name('index');
 // Route::post('create', [PracticeController::class, 'create'])->name('create');
 // Route::get('edit/{id}', [PracticeController::class, 'edit'])->name('edit');
 // Route::put('update/{id}', [PracticeController::class, 'update'])->name('update');
 // Route::get('delete/{id}', [PracticeController::class, 'destroy'])->name('destroy');
-// //cursor
+
+//cursor
 //Route::get('/', [StudentController::class, 'operation']);
 
 //Soft & Hard Delete
@@ -217,14 +236,14 @@ dd(app()->make('random'));
 
 //Route::get('/', [SimpleController::class, 'index']);
 
-//relationship
+//relationship-one to one
 // Route::get('list', [CustomerController::class, 'list']);
 
 
-//hasOneThought-realtionship
-// Route::get('/', [MechanicController::class, 'show']);
-// Route::get('/owner', [OwnerController::class, 'show2']);
-// Route::get('/bike', [MechanicController::class, 'show1']);
+//hasOneThought-realtionship-hasManyThrought
+// Route::get('/owner', [MechanicController::class, 'showOwner']); //hasOneThrough
+// Route::get('/', [OwnerController::class, 'show2']); //belongTo
+// Route::get('/bike', [MechanicController::class, 'showBike']);//hasManyThrough
 
 //many to many relationship
 // Route::get('/showsong', [SongController::class, 'show3']);
@@ -247,10 +266,133 @@ dd(app()->make('random'));
 //
 
 
-//
-Route::get('showphoto', [TagController::class, 'showPhoto']);
-Route::get('tagphoto', [PhotoController::class, 'photoTag']);
-Route::get('addtagphoto', [TagController::class, 'addTagphoto']);
-Route::get('tagvideo', [VideoController::class, 'videoTag']);
-Route::get('showvideo', [TagController::class, 'showVideo']);
-Route::get('addtagvideo', [TagController::class, 'addTagvideo']);
+//many to many-polymorphic
+// Route::get('showphoto', [TagController::class, 'showPhoto']);
+// Route::get('tagphoto', [PhotoController::class, 'photoTag']);
+// Route::get('addtagphoto', [TagController::class, 'addTagphoto']);
+// Route::get('tagvideo', [VideoController::class, 'videoTag']);
+// Route::get('showvideo', [TagController::class, 'showVideo']);
+// Route::get('addtagvideo', [TagController::class, 'addTagvideo']);
+
+
+//Accessor
+// Route::get('/accessor', [MutatorController::class, 'index']);
+// Route::get('/mutator', [MutatorController::class, 'show']);
+// Route::get('/json', [MutatorController::class, 'json']);
+// $post = Mutator::find(5);
+// dd($post->is_active);
+
+//validation with crud operations
+/*Group Route*/
+
+// Route::controller(RegistrationController::class)->group(function () {
+//     Route::get('/',  'index')->name('index');
+//     Route::post('register',  'register')->name('register');
+//     Route::get('edit/{id}', 'edit');
+//     Route::put('update/{id}',  'update')->name('update');
+//     Route::get('delete/{id}', 'destroy');
+// });
+
+/*single Route*/
+
+// Route::get('/', [RegistrationController::class, 'index'])->name('index');
+// Route::post('register', [RegistrationController::class, 'register'])->name('register');
+// Route::get('edit/{id}', [RegistrationController::class, 'edit']);
+// Route::put('update/{id}', [RegistrationController::class, 'update'])->name('update');
+// Route::get('delete/{id}', [RegistrationController::class, 'destroy']);
+
+
+//Middleware-global
+// Route::get('/', function () {
+//     return view('middleware.home');
+// });
+
+// Route::get('dashboard', function () {
+//     return view('middleware.dashboard');
+// });
+
+// Route::get('contact', function () {
+//     return view('middleware.contact ');
+// });
+
+// Route::get('report', [ReportController::class, 'show']);
+
+
+//middleware-route
+// Route::get('/', function () {
+//     return view('middleware.home');
+// });
+
+// Route::get('dashboard', function () {
+//     return view('middleware.dashboard');
+// });
+
+// Route::get('contact', function () {
+//     return view('middleware.contact ');
+// })->middleware('construction');
+
+// Route::get('report', [ReportController::class, 'show']);
+
+
+//middleware-group
+// Route::get('/', function () {
+//     return view('middleware.home');
+// });
+// Route::get('dashboard', function () {
+//     return view('middleware.dashboard');
+// });
+// Route::get('contact', function () {
+//     return view('middleware.contact ');
+// })->middleware('construction');
+// Route::get('report', [ReportController::class, 'show']);
+
+//goupe middleware with goupe route
+// Route::middleware(['construction:admin'])->group(function () {
+//     Route::get('dashboard', function () {
+//         return view('middleware.dashboard');
+//     })->withoutmiddleware(['construction:admin']);
+// });
+
+//statuc check a request in middleware
+// Route::get('dashboard', function () {
+//     return view('middleware.dashboard');
+// })->middleware(['construction:admin']);
+
+// Route::get('contact', function () {
+//     return view('middleware.contact ');
+// });
+// Route::get('/', function () {
+//     return view('middleware.home');
+// });
+// Route::get('report', [ReportController::class, 'show']);
+
+
+//Request Method
+// Route::get('/', [RequestController::class, 'practice']);
+// Route::get('profile', function (Request $request) {
+//     dd($request);
+// });
+// Route::get('index/{id}', [RequestController::class, 'index']);
+// Route::get('/admin/one', [RequestController::class, 'check']);
+// Route::get('/guest/one', [RequestController::class, 'check']);
+
+//Response Method
+
+// Route::get('response', [ResponseController::class, 'response']);
+
+//Mail & Notification
+// Route::get('email', [HomeController::class, 'email']);
+// Route::get('send-notification/{id}', [HomeController::class, 'sendOfferNotification']);
+// Route::get('send-email', [MailController::class, 'sendEmail']);
+
+
+//job-Queue
+//static
+// Route::get('mail', function () {
+//     $userMail = 'nehav@zignuts.com';
+//     dispatch(new sendEmailJob($userMail));
+//     dd('Send Mail Successfully..!!');
+// });
+
+//Dynamic
+// Route::get('sendJob/{mail}', [HomeController::class, 'sendJob']);

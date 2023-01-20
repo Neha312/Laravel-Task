@@ -154,11 +154,15 @@ return [
     |
     */
 
-    'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
-    ],
+    // 'custom' => [
+    //     'email' => [
+    //         'required' => 'email is required',
+    //     ],
+    //     'name' => [
+    //         'required' => 'name is required',
+    //         'min' => 'Your name is too short'
+    //     ],
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -171,6 +175,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'username'
+    ],
 
 ];

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class MechanicController extends Controller
 {
-    public function show()
+    public function showOwner()
     {
         $result = Mechanic::with('owner')->get();
         //dd($result);
@@ -18,10 +18,10 @@ class MechanicController extends Controller
         // dd($result);
     }
 
-    public function show1()
+    public function showBike()
     {
-        // $result = Mechanic::with('bike')->get();
-        // return  view('customer', compact(['result']));
-        //dd($result);
+        $result = Mechanic::with('bike')->get();
+        return  view('customer', compact(['result']));
+        dd($result);
     }
 }

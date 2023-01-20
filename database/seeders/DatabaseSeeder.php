@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Artical;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
         //     StudentTableData::class
         // ]);
 
-        Artical::factory(10)->create();
+        //Artical::factory(10)->create();
+        User::factory(10)->create();
     }
 }

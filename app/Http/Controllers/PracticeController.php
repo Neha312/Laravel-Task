@@ -111,7 +111,7 @@ class PracticeController extends Controller
             'city'  => 'required|string',
             'gender'  => 'required',
             //'lang' => 'required',
-            'marks'  => 'required|numeric/max:3',
+            'marks'  => 'required|numeric|max:3',
         ], [
             'name.required' => 'Name Is must Fill',
 

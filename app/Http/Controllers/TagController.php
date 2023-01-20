@@ -12,12 +12,22 @@ class TagController extends Controller
     public function  showPhoto()
     {
         $img = Tag::with('photos')->get()->toArray();
-        dd($img);
+        // dd($img);
+        return response()->json([
+            'message' => 'Successfully Done',
+            'status' => 200,
+            'images'    =>  $img,
+        ]);
     }
     public function  showVideo()
     {
         $video = Tag::with('videos')->get()->toArray();
-        dd($video);
+        //dd($video);
+        return response()->json([
+            'message' => 'Successfully Done',
+            'status' => 200,
+            'videos'    =>  $video,
+        ]);
     }
     public function addTagphoto()
     {

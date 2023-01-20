@@ -18,7 +18,7 @@ class PhotoController extends Controller
     //     $song->save();
     // }
 
-    //
+    //one to many-polymorphic
     public function showPhoto()
     {
         // $data = Photo::with('comments')->get();
@@ -44,6 +44,8 @@ class PhotoController extends Controller
         $comment = new Comment(['body' => 'abc']);
         $comment = $photo->comments()->save($comment);
     }
+
+    //one ot one -polymorphic
     public function  showPhoto1()
     {
         // $data = Photo::with('comments')->get();
@@ -57,6 +59,8 @@ class PhotoController extends Controller
         // $photo = Photo::find($id);
         // return $photo;
     }
+
+    //function of  addPhoto into Image
     public function addPhoto1()
     {
         $photo = Photo::create(['name' => 'neha']);
@@ -69,16 +73,20 @@ class PhotoController extends Controller
         $img = new Image(['body' => 'Photo']);
         $img = $photo->image()->save($img);
     }
-    public function photoTag()
+    //many to many-polimorphic usinh postman
+    public function photoTag(Request $request)
     {
-        $photo = Photo::create(['name' => 'neha']);
-        // $photo->name = 'my photo';
-        // $photo = $photo->save();
+        $photo = Photo::create(['name' => $request->name]);
+        $tag = Tag::create(['name' => $request->tag_name]);
+        $tagnew = $photo->tags()->save($tag);
 
-
-        // $photo = [$photo->id];
-
-        $tag = new Tag(['name' => 'Photo Tag']);
-        $tag = $photo->tags()->save($tag);
+        //  post-man example
+        return response()->json([
+            'message' => 'Successfully Done',
+            'status' => 200,
+            'tag'    =>  $tag,
+            'tagnew' => $tagnew,
+            'photo' => $photo,
+        ]);
     }
 }

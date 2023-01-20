@@ -9,7 +9,14 @@
 </head>
 
 <body>
-    <h1>Request Page</h1>
+    <h1>Contact Page</h1>
+    <hr>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/report">Report</a></li>
+    </ul>
 </body>
 
 </html>

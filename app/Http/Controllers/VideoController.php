@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class VideoController extends Controller
 
 {
+    //one to one-polymorphic
     public function showVideo()
     {
         // $data = Video::with('comments')->get();
@@ -35,6 +36,8 @@ class VideoController extends Controller
         $comment = new Comment(['body' => 'video Details']);
         $comment = $video->comments()->save($comment);
     }
+
+    //many to many-polymmorphic
     public function videoTag()
     {
         $video = Video::create(['title' => 'neha']);

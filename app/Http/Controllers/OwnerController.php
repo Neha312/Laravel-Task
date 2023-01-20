@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class OwnerController extends Controller
 {
+    //hashManyThough
     public function show2()
     {
         // $owner = Mechanic::find()->bike->owner;
